@@ -27,6 +27,29 @@ from quorumpilot.receipts import build_receipt, receipt_json, render_html  # noq
 from quorumpilot.verify import fact_bundle, verify_claim, verify_claims    # noqa: E402
 
 ROOT = Path(__file__).resolve().parent
+
+def runpy(args, **kw):
+    """Run a child interpreter over a deterministic UTF-8 pipe.
+
+    Without this, the suite crashes on a cp936 Windows locale: the child
+    emits UTF-8 bytes while the parent's reader thread decodes with the
+    locale codec, the reader dies with UnicodeDecodeError, and stdout
+    silently becomes None -- surfacing later as a confusing TypeError.
+    """
+    import os
+    env = dict(os.environ)
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
+    kw.setdefault("capture_output", True)
+    kw.setdefault("text", True)
+    kw.setdefault("encoding", "utf-8")
+    kw.setdefault("errors", "replace")
+    kw.setdefault("timeout", 180)
+    kw.setdefault("cwd", ROOT)
+    kw.setdefault("env", env)
+    return subprocess.run([sys.executable] + list(args), **kw)
+
+
 EX = ROOT / "examples"
 
 PASS, FAIL = [], []
@@ -372,8 +395,7 @@ msgs = [
                                  "stop": 1.2600, "take_profit": 1.2800,
                                  "leverage": 30}}}},
 ]
-proc = subprocess.run(
-    [PY, "-m", "quorumpilot.mcp_server"],
+proc = runpy(["-m", "quorumpilot.mcp_server"],
     input="".join(json.dumps(x) + "\n" for x in msgs),
     capture_output=True, text=True, timeout=180, cwd=str(ROOT))
 lines = [json.loads(x) for x in proc.stdout.splitlines() if x.strip()]
@@ -422,22 +444,22 @@ check("MCP: ingest_sources reports provenance",
 # --------------------------------------------------------------- I. CLI
 print("\nI. CLI")
 env = dict(os.environ, PYTHONPATH=str(ROOT))
-r = subprocess.run([PY, "-m", "quorumpilot", "review",
+r = runpy(["-m", "quorumpilot", "review",
                     str(EX / "proposal_caution.json"), "--json"],
                    capture_output=True, text=True, timeout=180, cwd=str(ROOT))
 check("CLI --json emits parseable JSON",
       json.loads(r.stdout)["verdict"] == "PROCEED_WITH_CAUTION")
-r = subprocess.run([PY, "-m", "quorumpilot", "policy",
+r = runpy(["-m", "quorumpilot", "policy",
                     str(EX / "proposal_clean.json")],
                    capture_output=True, text=True, timeout=180, cwd=str(ROOT))
 check("CLI policy exits 0 when clean", r.returncode == 0 and "no breaches" in r.stdout)
-r = subprocess.run([PY, "-m", "quorumpilot", "policy",
+r = runpy(["-m", "quorumpilot", "policy",
                     str(EX / "proposal_risky.json")],
                    capture_output=True, text=True, timeout=180, cwd=str(ROOT))
 check("CLI policy exits 1 when breached", r.returncode == 1)
 with tempfile.TemporaryDirectory() as td:
     out = Path(td) / "receipt.html"
-    r = subprocess.run([PY, "-m", "quorumpilot", "review",
+    r = runpy(["-m", "quorumpilot", "review",
                         str(EX / "proposal_risky.json"), "--html", str(out)],
                        capture_output=True, text=True, timeout=180, cwd=str(ROOT))
     check("CLI --html writes a report", out.exists() and out.stat().st_size > 500)
@@ -495,7 +517,7 @@ check("garbage text is reported, not swallowed",
       any("could not read" in w.lower() for w in
           ingest([Blob("junk.txt", "hello world")]).warnings))
 
-r = subprocess.run([sys.executable, "-m", "quorumpilot", "ingest"] + FRAG +
+r = runpy(["-m", "quorumpilot", "ingest"] + FRAG +
                    ["--proposal", str(EX / "fragmented" / "proposal.json")],
                    capture_output=True, text=True, timeout=180, cwd=str(ROOT))
 check("CLI ingest merges and reviews",
