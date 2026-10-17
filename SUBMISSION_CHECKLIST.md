@@ -2,9 +2,13 @@
 
 ## Competition 1 — The Rise of AI Agents Hackathon (lablab.ai / Dubai AI Week)
 
-**Prize pool:** $60,000+ · **Build window:** 26 Oct – 2 Nov 2026 · **Finale (invite only, Dubai):** 3–7 Nov
-**Tracks:** 🤝 Collaborative Systems (primary), 🔄 Agentic Workflows (secondary)
+**Prize pool:** $60,000+ · **Build window:** 26 Oct – 2 Nov 2026 · **Submission deadline: 2 Nov 2026 (end of day)** · **Final Showcase (invite only, Dubai): 3 Nov**（现场在 Deriv Offices, Business Bay；差旅不覆盖，无需订任何行程）
+**Tracks (official, pick one):** 🧠 Intelligent Reasoning · 🔄 Agentic Workflows · 🌍 Enterprise Utility · 🧩 Multimodal Intelligence · 🤝 **Collaborative Systems (primary — QuorumPilot 四专家+仲裁者就是多智能体协作)**；🔄 Agentic Workflows (secondary)
+**Judging criteria (official):** Innovation · Practical Application · Technical Execution · Impact · Originality
+**Submission requirements (lablab format):** working online prototype + video presentation + pitch deck（提交表单还要重读一遍官方规则页，lablab 偶尔加必填字段）
+**Registration:** lablab.ai 注册在建窗期内持续开放，可 10-26 开窗日注册；**一个 lablab 账号同时覆盖 Vultr Agent Rush 提交**。队内每人需各自注册。
 **Eligibility:** global, online participation, solo or team, 18+. Confirmed from the official lablab.ai event page.
+**GCP 专项注意:** Google GCP 奖品要求用 Gemini 模型驱动 agent 智能——见下文 26 Oct–1 Nov 增量第 1 条（`brain.py` 已讲 OpenAI-compatible，零代码改动）。
 
 ## Competition 2 — Open Agent Hackathon 2026 (GenAI Works)
 
@@ -59,6 +63,14 @@ the build window chasing them.
   rubric, so treat this as unconfirmed — but all three are things QuorumPilot
   already does (public repo, 137 assertions, failure-mode docs), so if the
   bonus exists we collect it for free.
+
+### ✅ Official eligibility ruling (2026-10-17, verbatim from the live event page) — why QuorumPilot, not DecisionLens, is the Open Agent entry
+
+> **Bonus track — Wildcard [Tinkerer]: Bring Your Own Project** — "Bring an existing project, prototype or concept and extend it using sponsor technology such as Meterless and Zetaris. Entries are judged on the same criteria as the other tracks, must integrate Zetaris and Meterless, and are scored on the new work rather than prior development."
+
+Main page also states "**Pick one track. Build for it.**" and "Over a six-day build sprint" (build window opens Oct 22 00:00 UTC).
+
+**Reading:** the organizers maintain a dedicated track for pre-existing projects (Wildcard, mandatory Zetaris+Meterless, new work only) → main tracks 01/02/03 are for work built inside the window. DecisionLens's public repo predates the window → **main-track eligibility risk; Wildcard is a dead end without keys.** QuorumPilot's public repo is created **26 Oct, inside the window** (per plan below) → **eligibility-safe, and its cited verdicts are a literal Track 02 fit.** → **Open Agent entry = QuorumPilot. DecisionLens demoted to backup** (second gun only if the platform confirms multiple projects per team are allowed; see `decisionlens/OPEN_AGENT_PITCH.md` banner).
 
 > **Order of operations:** register for Open Agent **before 22 Oct 23:59 UTC**
 > (北京 10-23 07:59 — that is a user action, the form needs an email), then
