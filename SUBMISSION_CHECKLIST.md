@@ -97,12 +97,12 @@ day; if either asks for exclusivity, Deriv ($60k) takes priority.
 
 ## 26 Oct — opening day (do all of this the same day)
 
-- [ ] Register on **lablab.ai** (this is also the account needed for the Vultr Agent Rush submission — one registration covers both).
-- [ ] Create the public repo `Zhiyilang/quorumpilot`, MIT, push everything in this folder.
-- [ ] Deploy: Render (`render.yaml`) **and/or** a Hugging Face Space. Put the live URL in the README and in the submission.
-- [ ] Run `python eval.py` on a clean clone and paste the result (`137 passed, 0 failed`) into the README.
+- [ ] Register on **lablab.ai** (this is also the account needed for the Vultr Agent Rush submission — one registration covers both). **（用户动作，~5 分钟；官方页 lablab.ai/ai-hackathons/ai-agents-ai-week-hackathon → Sign up）**
+- [x] Create the public repo `Zhiyilang/quorumpilot`, MIT, push everything in this folder. **→ 已由 00:35 自动化完成（路线 B/Gitee）：`gitee.com/ZhiYIlang/quorumpilot-deriv`，created 2026-10-26T00:35:47+08:00（窗口内），公开匿名可见，47 文件，MIT**
+- [ ] Deploy: Render (`render.yaml`) **and/or** a Hugging Face Space. Put the live URL in the README and in the submission. **（用户动作；注：workbuddy 发布槽 clauseguard-ai.app.workbuddy.host 现由 ClauseGuard 占用至 11-01 14:59，QuorumPilot 槽位 11-02 08:00 起——OA 线今天的 live URL 需走 HF Space/Render 新部署，零思考包已备：`_hf_space_bundle/`）**
+- [x] Run `python eval.py` on a clean clone and paste the result (`137 passed, 0 failed`) into the README. **→ 已完成（10-26 09:0x）：干净克隆实测 137 passed, 0 failed exit 0；结果行已写入 README.md / README.zh.md 并匿名复验**
 - [ ] Post a short build log / thread with the repo link.
-- [ ] Submit the same project to **Open Agent** — **track 02, The Agent That Can Explain Why**; submissions close **27 Oct 23:45 UTC** (北京 10-28 07:45), one day after publishing. Use the 21.5s demo video already produced (`quorumpilot_demo.mp4`); upload it to YouTube unlisted the same day.
+- [ ] Submit the same project to **Open Agent** — **track 02, The Agent That Can Explain Why**; submissions close **27 Oct 23:45 UTC** (北京 10-28 07:45), one day after publishing. Use the 21.5s demo video already produced (`quorumpilot_demo.mp4`); upload it to YouTube unlisted the same day. **（用户动作，**今天 10-26 就交掉**，别等 10-28；视频版本提示：21.5s 快剪已在仓内，76.0s 完整版 `deriv_demo.mp4` 同仓——10-20 起 76s 为主推口径，上传时二选一，推荐 76s）**
 
 ## 26 Oct – 1 Nov — optional upgrades, in priority order
 
