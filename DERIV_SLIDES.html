@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuorumPilot — Deriv Rise of AI Agents (Collaborative Systems)</title>
+<style>
+  :root{ --bg:#0e1116; --panel:#161b22; --ink:#e6edf3; --muted:#9da7b3; --line:#2a313a;
+         --accent:#58a6ff; --good:#3fb950; --bad:#f85149; --warn:#d29922; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  .slide{min-height:100vh;padding:56px 64px;display:flex;flex-direction:column;justify-content:center;
+         border-bottom:1px solid var(--line);page-break-after:always}
+  .kicker{color:var(--accent);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;margin-bottom:14px}
+  h1{font-size:46px;line-height:1.1;margin:0 0 16px}
+  h2{font-size:30px;margin:0 0 18px}
+  .sub{color:var(--muted);font-size:20px;font-style:italic;margin-bottom:10px}
+  .foot{color:var(--muted);font-size:14px;margin-top:28px}
+  ul{margin:8px 0 0;padding-left:22px}
+  li{margin:10px 0;font-size:19px}
+  .term{background:#0b0e13;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+        font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px;white-space:pre-wrap;margin-top:14px}
+  .reject{color:var(--bad);font-weight:700}
+  .proceed{color:var(--good);font-weight:700}
+  .caution{color:var(--warn);font-weight:700}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .card h3{margin:0 0 8px;font-size:18px;color:var(--accent)}
+  .big{font-size:40px;font-weight:800}
+  .tag{display:inline-block;background:#1f6feb22;border:1px solid #1f6feb55;color:var(--accent);
+       border-radius:999px;padding:3px 12px;font-size:13px;margin:4px 6px 0 0}
+  @media print{ body{background:#fff;color:#111} .slide{min-height:auto;border:0;padding:40px}
+    :root{--ink:#111;--muted:#555;--panel:#f6f8fa;--line:#ddd;--bg:#fff}
+    .term{background:#f6f8fa} }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="kicker">Deriv · Rise of AI Agents — Collaborative Systems track</div>
+  <h1>QuorumPilot</h1>
+  <div class="sub">A model may speak. It may not be believed.</div>
+  <p style="font-size:19px;color:var(--muted);max-width:760px">
+    A multi-agent risk-review system for trading. Four specialist agents review a proposed
+    trade — but a deterministic verifier decides which of their claims <em>count</em>, and a
+    pure-arithmetic arbiter decides the verdict. No model touches the final number.
+  </p>
+  <div class="foot">支一郎 · solo developer · MIT · offline-deterministic · 137 assertions</div>
+</section>
+
+<section class="slide">
+  <div class="kicker">The problem</div>
+  <h2>One confident hallucination is the entire loss</h2>
+  <ul>
+    <li>Ask a language model whether a trade is safe: it answers fluently — with numbers it invented.</li>
+    <li>In a risk decision, that fluency is exactly what makes it dangerous.</li>
+    <li>So the agents here may propose anything — but nothing counts until it is proven.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">The part that matters</div>
+  <h2>Evidence, not eloquence</h2>
+  <ul>
+    <li>Every claim must cite a field in the computed facts.</li>
+    <li>A deterministic verifier re-resolves each citation — an agent's word is not evidence.</li>
+    <li>Anything unprovable loses its voting weight entirely.</li>
+    <li>The arbiter is pure arithmetic: no model touches the final number.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <div class="kicker">Live demo · real run</div>
+  <h2>Risky trade → <span class="reject">REJECT</span>, seven breaches, each with its number</h2>
+  <div class="term">$ python -m quorumpilot review examples/proposal_risky.json
+QuorumPilot  verdict=<span class="reject">REJECT</span>  score=-55  brain=offline-deterministic
+  long GBPUSD 500000 units | risk 10.00% of equity (USD 2500.00)
+  claims: 16 verified, 0 dropped
+  breaches:
+    - RISK_PER_TRADE: 10.00% of equity exceeds the 2.00% cap
+    - TOTAL_RISK: open + proposed 13.60% exceeds the 6.00% portfolio cap
+    - LEVERAGE: effective 25.3x exceeds the 20.0x cap
+    - RISK_CONCENTRATION: 10.00% of equity above the 4.00% single-name cap
+    ... 7 rules breached</div>
+  <p style="color:var(--muted)">Not just a no-machine: a clean proposal returns
+    <span class="proceed">PROCEED</span>, a borderline one <span class="caution">PROCEED_WITH_CAUTION</span> with its reasons.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Adversarial · 137 offline assertions</div>
+  <h2>A quorum handed a brain that fabricates: verdict unchanged</h2>
+  <div class="term">$ python eval.py
+  ... lying agent / liar's claims ... verdict is unchanged ...
+<span class="proceed">137 passed</span>, 0 failed</div>
+  <p style="color:var(--muted)">An agent that fabricates three confident claims has all of them dropped;
+    the verdict is identical to the honest run. The system cannot be talked out of the arithmetic.</p>
+</section>
+
+<section class="slide">
+  <div class="kicker">Explainability &amp; ingestion</div>
+  <h2>The whole argument, re-runnable line by line</h2>
+  <div class="grid">
+    <div class="card"><h3>explain</h3>Full arbitration transcript: every specialist, every citation,
+      every objection and its voting weight — inspectable, not a black box.</div>
+    <div class="card"><h3>ingest</h3>Five files, four formats, three naming schemes — merged with
+      provenance. Conflicts are reported, never silently picked.</div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">Interoperable</div>
+  <h2>A real MCP server (protocol 2025-11-25)</h2>
+  <div class="term">$ python -m quorumpilot mcp &lt; examples/mcp_handshake.jsonl
+  protocolVersion ... serverInfo ... tools ... review_trade ...</div>
+  <p style="color:var(--muted)">Six tools over MCP; responses never sliced into invalid JSON. Any MCP host
+    can call the reviewer before a trade executes.</p>
+  <div style="margin-top:10px">
+    <span class="tag">multi-agent</span><span class="tag">deterministic verifier</span>
+    <span class="tag">cited evidence</span><span class="tag">offline</span><span class="tag">MCP 2025-11-25</span>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="kicker">In one line</div>
+  <h1 style="font-size:34px">Agents propose. The verifier decides what counts.<br>The arbiter decides what to do.</h1>
+  <div class="foot">github.com/Zhiyilang/quorumpilot-openagent (publishes 2026-10-23 after the Open Agent gate) ·
+    public mirror: github.com/Zhiyilang/quorumpilot · 支一郎 · MIT</div>
+</section>
+
+</body>
+</html>
