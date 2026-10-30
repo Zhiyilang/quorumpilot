@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>QuorumPilot · 华为智能体创新赛（西北赛区）</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #eef1f6; }
+  .page {
+    width: 297mm; height: 210mm; padding: 16mm 18mm;
+    background: #ffffff; position: relative; page-break-after: always;
+    display: flex; flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+  .hdr { border-left: 6px solid #0a6cff; padding-left: 14px; margin-bottom: 9mm; }
+  .hdr h1 { font-size: 30px; color: #16181d; letter-spacing: .5px; }
+  .hdr .sub { font-size: 14px; color: #5a6270; margin-top: 5px; }
+  .body { flex: 1; display: flex; gap: 10mm; }
+  .col { flex: 1; }
+  h2 { font-size: 17px; color: #0a6cff; margin-bottom: 6px;
+       border-bottom: 1px solid #dde2ea; padding-bottom: 5px; }
+  p, li { font-size: 13px; line-height: 1.75; color: #2b303b; }
+  ul { padding-left: 17px; } li { margin-bottom: 5px; }
+  .kpis { display: flex; gap: 6mm; margin: 5mm 0 7mm; }
+  .kpi { flex: 1; background: #f5f8fd; border: 1px solid #dde2ea;
+         border-radius: 8px; padding: 5mm 4mm; text-align: center; }
+  .kpi .n { font-size: 30px; font-weight: 700; color: #0a6cff; line-height: 1.1; }
+  .kpi .l { font-size: 11px; color: #5a6270; margin-top: 5px; }
+  .flow { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; margin: 4mm 0; }
+  .step { background: #f5f8fd; border: 1px solid #dde2ea; border-radius: 6px;
+          padding: 4px 8px; font-size: 11px; font-family: Consolas, monospace; color: #2b303b; }
+  .step.hi { background: #e8f1ff; border-color: #0a6cff; color: #0a6cff; font-weight: 700; }
+  .arrow { color: #9aa3b2; font-size: 12px; }
+  .term { background: #16181d; color: #d8dee9; border-radius: 8px; padding: 5mm 6mm;
+          font-family: Consolas, "Courier New", monospace; font-size: 11.5px; line-height: 1.65; }
+  .term .g { color: #7fd67f; } .term .r { color: #ff8f8f; } .term .y { color: #ffd479; }
+  .term .c { color: #6fb3d2; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { border: 1px solid #dde2ea; padding: 5px 8px; text-align: left; }
+  th { background: #f5f8fd; color: #16181d; font-weight: 600; }
+  td.num { font-family: Consolas, monospace; color: #0a6cff; font-weight: 600; }
+  .foot { position: absolute; bottom: 9mm; left: 18mm; right: 18mm;
+          border-top: 1px solid #dde2ea; padding-top: 4px;
+          font-size: 10.5px; color: #8b93a1; display: flex; justify-content: space-between; }
+  .note { background: #fff8e6; border: 1px solid #f0d999; border-radius: 6px;
+          padding: 4mm 5mm; font-size: 12px; color: #6b5510; margin-top: 4mm; }
+  .sep { border-top: 1px dashed #c9d0dc; margin: 5mm 0; }
+</style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<section class="page">
+  <div class="hdr">
+    <h1>QuorumPilot · 多智能体交易评审团</h1>
+    <div class="sub">2026 华为开发者大赛 · 智能体创新赛（西北赛区）｜参赛主体：OPC（一人公司／超级个体）｜场景方向：企业场景 · 风控与流程创新</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="n">137</div><div class="l">断言全部通过（0 失败）</div></div>
+    <div class="kpi"><div class="n">4</div><div class="l">位专家智能体</div></div>
+    <div class="kpi"><div class="n">3</div><div class="l">种确定性裁决</div></div>
+    <div class="kpi"><div class="n">0</div><div class="l">第三方依赖</div></div>
+  </div>
+  <div class="body">
+    <div class="col">
+      <h2>一、场景背景</h2>
+      <p>企业开始把交易审批交给 AI。但直接问一个大模型「这笔交易该不该做」，它会自信地回答，并引用<b>它自己编造出来的数字</b>——那不是风险工具，那是负债。</p>
+      <h2 style="margin-top:6mm">二、真实痛点（三条）</h2>
+      <ul>
+        <li><b>幻觉被当作证据</b>：模型输出的数值缺乏与事实字段的绑定校验。</li>
+        <li><b>单智能体无对抗</b>：一个模型自我审查，无法暴露自身盲点。</li>
+        <li><b>多智能体投票反而放大幻觉</b>：若不对每条论断做证据校验，投票等于把幻觉加权平均。</li>
+      </ul>
+      <div class="note"><b>目标用户：</b>需要 AI 辅助交易/采购/合规审批，但无法承受幻觉成本的企业与超级个体。</div>
+    </div>
+    <div class="col">
+      <h2>三、QuorumPilot 的应对：权力分离</h2>
+      <ul>
+        <li><b>智能体只能提议</b>：4 位专家提出论断，每条必须引用事实字段。</li>
+        <li><b>验证器决定什么算证据</b>：确定性代码逐条核对，不可证明者<b>在投票前丢弃</b>。</li>
+        <li><b>仲裁器决定怎么做</b>：纯算术、<b>不使用模型</b>，汇总幸存论断出裁决。</li>
+      </ul>
+      <div class="sep"></div>
+      <h2>四、实测（本机可复现）</h2>
+      <table>
+        <tr><th>项</th><th>结果</th></tr>
+        <tr><td>python eval.py</td><td class="num">137 passed / 0 failed</td></tr>
+        <tr><td>deriv_demo.mp4（主用）</td><td class="num">76.03 秒</td></tr>
+        <tr><td>quorumpilot_demo.mp4</td><td class="num">21.50 秒</td></tr>
+        <tr><td>oa_demo.mp4</td><td class="num">60.00 秒</td></tr>
+      </table>
+      <p style="margin-top:4mm;font-size:12px;color:#5a6270">官方要求视频「建议 3 分钟以内」→ 76.03 秒符合且内容最完整（含三种裁决 + 验证器丢弃过程 + MCP 服务器，全部真实运行真实输出）。</p>
+    </div>
+  </div>
+  <div class="foot"><span>QuorumPilot · Zhiyilang</span><span>1 / 4</span></div>
+</section>
+
+<!-- Page 2 -->
+<section class="page">
+  <div class="hdr">
+    <h1>功能架构：六段式流水线</h1>
+    <div class="sub">感知 → 分工 → 验证 → 仲裁 → 解释 → 回执　｜　智能体提议 · 验证器定证据 · 仲裁器定决策</div>
+  </div>
+  <div class="body">
+    <div class="col">
+      <h2>流水线与权力分离</h2>
+      <div class="flow">
+        <span class="step">感知</span><span class="arrow">→</span>
+        <span class="step">分工</span><span class="arrow">→</span>
+        <span class="step hi">验证</span><span class="arrow">→</span>
+        <span class="step hi">仲裁</span><span class="arrow">→</span>
+        <span class="step">解释</span><span class="arrow">→</span>
+        <span class="step">回执</span>
+      </div>
+      <table style="margin-top:4mm">
+        <tr><th>角色</th><th>实现</th><th>权力</th></tr>
+        <tr><td>专家智能体 ×4</td><td>agents.py</td><td>只能<b>提议</b>论断</td></tr>
+        <tr><td>引擎</td><td>brain.py</td><td>LLM / 离线双通道，可降级</td></tr>
+        <tr><td><b>验证器</b></td><td>verify.py<br><code>verify_claim() / verify_claims()</code></td><td><b>决定什么算证据</b></td></tr>
+        <tr><td><b>仲裁器</b></td><td>arbitrate.py<br><code>arbitrate(snap, m, ...)</code></td><td><b>决定怎么做（纯算术）</b></td></tr>
+        <tr><td>回执</td><td>receipts.py</td><td>全程留痕可审计</td></tr>
+      </table>
+      <h2 style="margin-top:6mm">其他模块</h2>
+      <p style="font-family:Consolas,monospace;font-size:11.5px;line-height:1.9">
+        market.py · ingest.py · cli.py · mcp_server.py · agent.py · app.py · web.py
+      </p>
+    </div>
+    <div class="col">
+      <h2>三种裁决（全部由纯算术产生）</h2>
+      <div class="term">
+<span class="c">PROCEED</span>　　　　　　　<span class="g">执行</span><br>
+<span class="c">PROCEED_WITH_CAUTION</span>　<span class="y">谨慎执行</span><br>
+<span class="c">REJECT</span>　　　　　　　　<span class="r">拒绝</span>
+      </div>
+      <p style="margin-top:4mm"><b>关键性质</b>：仲裁器不调用任何模型。裁决结果不受任何大模型措辞影响——这是<b>架构级保证</b>，而非提示词约束。</p>
+      <h2 style="margin-top:6mm">验证器的硬规则</h2>
+      <ul>
+        <li>每条论断必须<b>引用事实快照中的某个字段</b>；</li>
+        <li>引用不到 / 与字段不符 → 判定<b>不可证明</b>；</li>
+        <li>不可证明的论断<b>在进入投票前被丢弃</b>，不参与汇总。</li>
+      </ul>
+      <div class="note" style="margin-top:4mm">因此系统不会把「模型自信但未被引证」的说法计入决策，从结构上消除幻觉进入裁决的路径。</div>
+    </div>
+  </div>
+  <div class="foot"><span>QuorumPilot · Zhiyilang</span><span>2 / 4</span></div>
+</section>
+
+<!-- Page 3 -->
+<section class="page">
+  <div class="hdr">
+    <h1>核心亮点：不可证明即丢弃</h1>
+    <div class="sub">差异化创新点 · 对应评分维度「专业贴合与创新 25 分」</div>
+  </div>
+  <div class="body">
+    <div class="col">
+      <h2>亮点 1 · 证据优先于意见</h2>
+      <p>多数多智能体方案让智能体投票后直接采纳多数意见。QuorumPilot 在投票<b>之前</b>插入确定性验证：智能体的每条论断必须先绑定事实字段，绑定不上就被丢弃。这意味着<b>模型无法靠"说得更自信"影响结果</b>——它只能靠提出可被引证的论断来影响结果。</p>
+      <h2 style="margin-top:6mm">亮点 2 · 仲裁器不用模型</h2>
+      <p>最终裁决由纯算术汇总产生，杜绝了"让 LLM 再判断一次"带来的二次幻觉与措辞敏感性。裁决可被独立重算与审计。</p>
+      <h2 style="margin-top:6mm">亮点 3 · 对抗式多智能体</h2>
+      <p>4 位专家从不同视角审查同一笔交易，天然形成对抗，暴露单智能体盲点；而对抗的结果仍受验证器约束，不会退化为"多数人的幻觉"。</p>
+    </div>
+    <div class="col">
+      <h2>亮点 4 · 零依赖 + 完全离线可复现</h2>
+      <ul>
+        <li>纯 Python 标准库，<b>pip install 无内容</b>。</li>
+        <li>引擎双通道：OpenAI 兼容 LLM <b>或</b>确定性离线引擎（brain.py），模型不可用时自动降级，评测不依赖任何 Key。</li>
+        <li><b>137 条断言</b>覆盖完整流水线，离线一次跑通。</li>
+      </ul>
+      <h2 style="margin-top:6mm">亮点 5 · 工程交付完备</h2>
+      <ul>
+        <li>Web 界面（web.py）+ HTTP 服务（app.py）</li>
+        <li><b>MCP 服务器</b>（mcp_server.py）——可作为工具被其他智能体调用</li>
+        <li>完整演示视频 3 份（21.5s / 60.0s / 76.0s）</li>
+        <li>MIT 许可，GitHub / Gitee 双公开</li>
+      </ul>
+      <h2 style="margin-top:6mm">落地价值</h2>
+      <p>可直接作为企业交易审批、采购风控、合规审查的前置闸门；MCP 服务器形态便于嵌入现有智能体体系。</p>
+    </div>
+  </div>
+  <div class="foot"><span>QuorumPilot · Zhiyilang</span><span>3 / 4</span></div>
+</section>
+
+<!-- Page 4 -->
+<section class="page">
+  <div class="hdr">
+    <h1>华为云码道（CodeArts）应用说明</h1>
+    <div class="sub">对应评分维度「码道深度使用 25 分」—— 覆盖环境搭建 / 代码生成 / 调试排错 / 文档生成 全流程</div>
+  </div>
+  <div class="body">
+    <div class="col">
+      <h2>码道在开发全流程的覆盖</h2>
+      <table>
+        <tr><th>环节</th><th>码道承担的工作</th><th>产物</th></tr>
+        <tr><td>环境搭建</td><td>生成一键安装脚本与环境自检工具</td><td>scripts/setup.sh · doctor.py</td></tr>
+        <tr><td>代码生成</td><td>新增「时序类论断」校验；增加第五位合规专家智能体</td><td>verify.py · agents.py · 新断言</td></tr>
+        <tr><td>调试排错</td><td>修复同一专家相反论断丢弃行为不稳定</td><td>verify.py 修复 + 回归断言</td></tr>
+        <tr><td>文档生成</td><td>架构与 API/MCP 文档、部署运行说明</td><td>readme/ 全套 Markdown</td></tr>
+      </table>
+      <h2 style="margin-top:6mm">Prompt 设计要点</h2>
+      <ul>
+        <li>每条提示词<b>指明真实符号</b>（如 <code>verify_claims(claims, ...)</code>、<code>arbitrate(snap, m, ...)</code>），避免码道臆造接口。</li>
+        <li>显式约束：<b>纯标准库、验证逻辑不得依赖 LLM 输出、仲裁器必须保持纯算术</b>——保证改动不破坏核心安全性质。</li>
+        <li>要求码道<b>同时输出断言代码</b>，使每次生成都受 137 条回归测试约束。</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h2>使用证明材料（codearts_proof/）</h2>
+      <ul>
+        <li>核心功能开发的 <b>AI 交互对话与 Prompt 截图</b>（A/B/C/D 四组共 6 条）</li>
+        <li>代码生成、重构、排错的<b>过程记录</b></li>
+        <li>码道 IDE 插件<b>操作日志与记录</b></li>
+        <li>每条提示词对应的<b>本地终端执行输出</b>（含 eval.py 结果）</li>
+      </ul>
+      <h2 style="margin-top:6mm">交付规范（5 文件夹）</h2>
+      <p style="font-family:Consolas,monospace;font-size:12px;line-height:1.9">
+        QuorumPilot_&lt;队名&gt;_v1.0_&lt;联系方式&gt;.zip<br>
+        ├─ ppt/　　　　　　　 作品介绍 PDF<br>
+        ├─ project/　　　　　 可运行 Demo<br>
+        ├─ video/　　　　　　 deriv_demo.mp4（76.03s）<br>
+        ├─ codearts_proof/　　码道使用证明<br>
+        └─ readme/　　　　　　说明文档
+      </p>
+      <div class="note"><b>真实性声明：</b>全部码道使用痕迹为真实开发过程记录，未做任何合成或伪造。<br><b>并行说明：</b>中部赛区（PayPilot）与本单（QuorumPilot）为两个不同作品，分别投不同赛区，码道动作可在同一场会话连做。</div>
+    </div>
+  </div>
+  <div class="foot"><span>QuorumPilot · Zhiyilang</span><span>4 / 4</span></div>
+</section>
+
+</body>
+</html>
