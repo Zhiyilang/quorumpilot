@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>QuorumPilot · 作品介绍</title>
+<style>
+@page{size:A4 portrait;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:#1f2328;background:#fff}
+.page{width:210mm;height:297mm;padding:20mm 18mm;page-break-after:always;
+      display:flex;flex-direction:column;position:relative}
+.page:last-child{page-break-after:auto}
+.kicker{font-size:10pt;color:#0969da;letter-spacing:2px;margin-bottom:6mm}
+h1{font-size:26pt;line-height:1.25;margin-bottom:4mm}
+.sub{font-size:12pt;color:#57606a;margin-bottom:9mm}
+h2{font-size:14pt;color:#0969da;border-left:5px solid #0969da;padding-left:4mm;
+   margin:6mm 0 4mm}
+p{font-size:11pt;line-height:1.85;margin-bottom:3mm}
+ul{margin:0 0 4mm 6mm}
+li{font-size:11pt;line-height:1.85;margin-bottom:2mm}
+table{width:100%;border-collapse:collapse;font-size:10.5pt;margin-bottom:4mm}
+th,td{border:1px solid #d0d7de;padding:2.6mm 3mm;text-align:left;vertical-align:top}
+th{background:#f6f8fa;font-weight:600}
+.kpis{display:flex;gap:5mm;margin-bottom:6mm}
+.kpi{flex:1;border:1px solid #d0d7de;border-radius:8px;padding:5mm 3mm;text-align:center}
+.kpi .n{font-size:22pt;color:#1a7f37;font-weight:700;line-height:1.1}
+.kpi .l{font-size:9.5pt;color:#57606a;margin-top:2mm}
+.box{background:#f6f8fa;border:1px solid #d0d7de;border-radius:8px;padding:5mm 6mm;
+     font-size:11pt;line-height:1.85;margin-bottom:4mm}
+.foot{position:absolute;bottom:12mm;left:18mm;right:18mm;font-size:9pt;color:#8c959f;
+      border-top:1px solid #d0d7de;padding-top:3mm;display:flex;justify-content:space-between}
+code{font-family:Consolas,monospace;background:#f6f8fa;padding:0.5mm 1.5mm;border-radius:3px;font-size:10pt}
+</style></head><body>
+
+<div class="page">
+  <div class="kicker">开放原子大赛 · 2026 北京开源行业解决方案创新赛 · 赛道一</div>
+  <h1>QuorumPilot</h1>
+  <div class="sub">让智能体只能「提议」，不能「定案」——多智能体评审团 + 确定性验证器 + 无模型仲裁器</div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">137</div><div class="l">断言全部通过</div></div>
+    <div class="kpi"><div class="n">0</div><div class="l">第三方依赖</div></div>
+    <div class="kpi"><div class="n">4</div><div class="l">专家智能体</div></div>
+    <div class="kpi"><div class="n">0</div><div class="l">仲裁使用模型</div></div>
+  </div>
+
+  <h2>一、项目背景：智能体最大的风险不是答错，而是「它说了就算」</h2>
+  <p>2026 年，把大模型接进业务流程已成常态。但一个被广泛低估的问题是：<b>智能体的措辞会直接影响结论</b>。
+  同一个事实，换个说法、换个顺序、多一句铺垫，模型给出的判断就可能翻转。这意味着结论无法审计、无法复现、无法追责。</p>
+  <p>更现实的问题是：单一智能体既当「证据收集者」又当「裁判」，它既可能漏看关键证据，也可能为了自圆其说而编造证据。</p>
+  <div class="box">QuorumPilot 的回答是<b>权力分离</b>：智能体只能<b>提议</b>，
+  <b>验证器</b>决定什么算证据，<b>仲裁器</b>决定怎么做——而仲裁器<b>不使用任何模型</b>。</div>
+
+  <h2>二、技术架构：三层，越往下越不能商量</h2>
+  <table>
+    <tr><th style="width:26%">层</th><th>职责</th><th style="width:30%">关键性质</th></tr>
+    <tr><td><b>专家智能体</b><br><code>agents.py</code></td>
+        <td>4 位不同立场的专家就同一提案分别给出主张（claims），每条主张必须自带证据</td>
+        <td>可替换、可增删；允许犯错</td></tr>
+    <tr><td><b>验证器</b><br><code>verify.py</code></td>
+        <td><code>verify_claims()</code> 逐条核对主张与证据；对不上证据的主张<b>直接丢弃</b>，不进入裁决</td>
+        <td>确定性、纯代码、无模型</td></tr>
+    <tr><td><b>仲裁器</b><br><code>arbitrate.py</code></td>
+        <td><code>arbitrate()</code> 基于<b>通过验证的证据集</b>产出裁决与理由，结论逐条可回溯到证据</td>
+        <td><b>不使用模型</b>——不受措辞影响</td></tr>
+  </table>
+  <p>配套 <code>receipts.py</code> 把每一次裁决写成只追加凭据（谁主张了什么、证据是什么、哪些被丢弃、最终怎么判），
+  事后可完整回放。项目同时提供 MCP 服务器，可被任意外部智能体宿主直接调用。</p>
+
+  <div class="foot"><span>QuorumPilot · MIT License · 支一郎（Zhiyilang）</span><span>赛道一 · 开源基础软件与解决方案</span></div>
+</div>
+
+<div class="page">
+  <div class="kicker">开放原子大赛 · 赛道一：开源基础软件与解决方案</div>
+  <h2>三、应用场景</h2>
+  <p>任何「结论必须有据可查、且事后要能复盘」的高风险决策场景，都可以直接套用这套权力分离结构：</p>
+  <ul>
+    <li><b>金融与交易风控</b>：多位专家对同一笔交易分别给出风险主张，验证器剔除无证据主张，仲裁器产出可执行裁决（放行 / 谨慎放行 / 拒绝）。演示视频中三种裁决均有真实运行输出。</li>
+    <li><b>合规与合同审查</b>：把「合同条款是否满足某条监管要求」变成可举证的逐条主张，避免模型一句"符合要求"就定案。</li>
+    <li><b>运维变更评审</b>：变更提案先过专家意见与证据核验，再由确定性规则决定是否允许上线。</li>
+    <li><b>内容审核与事实核查</b>：多视角主张 + 证据核验 + 可回溯裁决，天然适合需要申诉复核的场景。</li>
+  </ul>
+
+  <h2>四、创新点</h2>
+  <ul>
+    <li><b>裁决不受措辞影响。</b>仲裁器不使用模型，只消费已通过验证的结构化证据集。同一组证据无论专家怎么措辞，裁决结果一致——这消除了"换个说法结论就翻转"这一根本风险。</li>
+    <li><b>证据先于结论。</b>主张必须自带证据，验证器会主动<b>丢弃</b>对不上的主张；被丢弃了什么、为什么，全部记录在凭据里，而不是悄悄忽略。</li>
+    <li><b>可审计而非需被信任。</b>只追加凭据链让每一次裁决都能完整回放：谁说了什么、哪条证据被采信、哪条被丢、最后怎么判。</li>
+    <li><b>零第三方依赖、零网络。</b>核心逻辑全部 Python 标准库实现，<code>git clone &amp;&amp; python eval.py</code> 即可复跑 137 条断言，不依赖任何外部服务或 API Key，评审与二次开发者都能一次跑通。</li>
+  </ul>
+
+  <h2>五、开源与长期维护</h2>
+  <table>
+    <tr><th style="width:30%">项</th><th>说明</th></tr>
+    <tr><td>开源协议</td><td>MIT（OSI 认可），第三方依赖合规</td></tr>
+    <tr><td>代码仓库</td><td>GitHub 与 Gitee 双公开镜像，保证国内外均可访问与复现</td></tr>
+    <tr><td>文档规范</td><td>README 提供中英双语、快速开始、模块说明与裁决语义</td></tr>
+    <tr><td>工程质量</td><td><code>eval.py</code> 137 条断言 0 失败；改动即回归，可自动化验证</td></tr>
+    <tr><td>可维护性</td><td>单人可独立使用、维护与扩展（契合"超级个体 / 一人公司"形态）；模块边界清晰，专家层可替换</td></tr>
+    <tr><td>长期规划</td><td>持续扩充验证器规则集与凭据查询工具，向通用"可审计决策中间件"演进</td></tr>
+  </table>
+
+  <div class="foot"><span>QuorumPilot · MIT License · 支一郎（Zhiyilang）</span><span>赛道一 · 开源基础软件与解决方案</span></div>
+</div>
+
+<div class="page">
+  <div class="kicker">可复现性说明</div>
+  <h2>六、三步复现</h2>
+  <div class="box">
+    <code>git clone https://github.com/Zhiyilang/quorumpilot.git</code><br>
+    <code>cd quorumpilot</code><br>
+    <code>python eval.py</code> &nbsp;→&nbsp; <b>137 passed, 0 failed</b>
+  </div>
+  <p>Python 3.9+ 即可运行，<b>无需安装任何依赖、无需联网、无需 API Key</b>。演示视频
+  （<code>deriv_demo.mp4</code>，76 秒）全部画面均为上述命令与真实运行输出，无一处模拟或剪辑伪造。</p>
+
+  <h2>七、与赛道的对应关系</h2>
+  <table>
+    <tr><th style="width:34%">赛道一征集方向（官方逐字）</th><th>本项目的对应</th></tr>
+    <tr><td>AI 开发工具链</td><td>MCP 服务器 + 命令行工具链，可被外部智能体宿主直接接入</td></tr>
+    <tr><td>智能体框架</td><td>多智能体（4 位专家）+ 验证层 + 仲裁层的可复用决策框架</td></tr>
+    <tr><td>面向具体行业的应用平台</td><td>金融风控 / 合规审查 / 运维变更评审等高风险决策场景</td></tr>
+    <tr><td>不限定技术栈和开发语言</td><td>Python 标准库实现，零依赖</td></tr>
+  </table>
+
+  <h2>八、评审维度自评</h2>
+  <table>
+    <tr><th style="width:22%">维度</th><th style="width:12%">权重</th><th>自评依据</th></tr>
+    <tr><td>技术创新</td><td>30%</td><td>"仲裁器不使用模型"消除措辞敏感性；证据先于结论并显式丢弃无据主张</td></tr>
+    <tr><td>场景落地</td><td>30%</td><td>零依赖可一次跑通；金融风控等场景有真实可执行裁决输出（见视频）</td></tr>
+    <tr><td>开源治理</td><td>20%</td><td>MIT 协议合规、零第三方依赖、中英双语文档、GitHub+Gitee 双镜像</td></tr>
+    <tr><td>长期发展</td><td>20%</td><td>单人可独立维护与扩展；模块边界清晰，验证器规则集可增量扩充</td></tr>
+  </table>
+
+  <div class="box" style="margin-top:6mm">
+    项目仓库：https://github.com/Zhiyilang/quorumpilot<br>
+    国内镜像：https://gitee.com/Zhiyilang/quorumpilot<br>
+    开源协议：MIT ｜ 维护者：支一郎（Zhiyilang）
+  </div>
+
+  <div class="foot"><span>QuorumPilot · MIT License · 支一郎（Zhiyilang）</span><span>赛道一 · 开源基础软件与解决方案</span></div>
+</div>
+
+</body></html>
